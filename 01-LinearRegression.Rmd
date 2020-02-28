@@ -1,0 +1,119 @@
+# Linear Regression 
+
+## An Example 
+
+Note: the output will not be identical because STATA's RNG is unclear, but the coefficients will be close
+
+```{r, message = F, warning=F}
+set.seed(1)
+N <- 10000 
+x <- rnorm(N, 0,1)
+u <- rnorm(N, 0,1)
+y <- 5.5*x + 12*u
+m1d <- data.frame(y = y, x=x, u =u)
+m1 <- lm(y~x, data = m1d)
+yhat1 <- predict(m1)
+yhat2 <- 0.0732608 + 5.685033*x 
+uhat1 <- residuals(m1)
+uhat2 <- y - yhat2
+
+# Bring all of them into a data frame for plotting 
+m1d <- data.frame(y = y, 
+                  x = x, 
+                  u = u, 
+                  uhat1 = uhat1,
+                  uhat2 = uhat2,
+                  yhat1 = yhat1)
+```
+
+
+## Regression Plot 
+
+```{r}
+library(ggplot2)
+theme_set(theme_bw())
+ggplot(data = m1d, aes(x = x, y = y))+
+    geom_point(size = .1)+
+    geom_smooth(method = "lm", se =F)+
+    geom_hline(yintercept = 0, linetype = "dashed")+
+    geom_vline(xintercept = 0, linetype = "dashed")+
+    ggtitle("OLS Regression Line")
+
+```
+
+## Residual Plot 
+
+To make a residual plot, we can exploit a little trick in ggplot. Another way to do this would be to manually specify variables in the aes() function as in the previous example. 
+
+```{r}
+ggplot(lm(y~x, data = m1d))+
+    geom_point(aes(x = .fitted, y = .resid), color = "gray")+
+    geom_hline(yintercept = 0, col = "black")+
+    xlab("Fitted Values")+
+    ylab("Residuals")+ 
+    # Remove the legend because it is unnecessary
+    theme(legend.position = "none")+
+    ggtitle("Residual Plot")
+
+```
+
+## OLS Residuals Add up to Zero by Construction 
+
+```{r}
+# Brand new set of variables 
+set.seed(1234)
+N <- 10
+x <- 9*rnorm(N)
+u <- 36*rnorm(N)
+y = 3 + 2*x + u 
+
+m2 <- lm(y~x)
+```
+
+Here is a different way to get the values of a model. We're directly calling attributes of our lm object
+
+```{r}
+fitted <- m2$fitted.values
+yhat<- predict(m2)
+residuals <- m2$residuals
+print(cbind(x,u,y, yhat,residuals))
+print(round(sum(residuals),8)) 
+```
+
+## Monte Carlo Simulation 
+
+```{r}
+set.seed(1234)
+N <- 10000 
+
+
+sim_ols <- function(N){
+    x <- 9*rnorm(N)
+    u <- 36*rnorm(N)
+    y = 3+2*x + u 
+    model <- lm(y~x)
+    # Since there are only two coefficients the second is $\Beta_1$
+    beta <- model$coefficients[2]
+}
+
+
+# Preallocate memory to our list to speed computation 
+beta <- c(NA_real_)
+length(beta) <- 1000
+
+# For loops are fine for intuition, and the appreciable loss of speed in negligible for most applications
+for(i in 1:1000){
+    beta[i]<-sim_ols(N)
+}
+mean(beta)
+```
+
+```{r}
+ggplot(data = data.frame(beta = beta), aes(x=beta))+
+    geom_histogram(bins = 30)+
+    geom_vline(xintercept = mean(beta))+
+    xlab("Beta Estimate")+
+    ylab("Number of Observations")+
+    ggtitle("Monte Carlo Simulation for Treatment Effect")
+```
+

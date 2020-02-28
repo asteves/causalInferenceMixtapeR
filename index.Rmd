@@ -1,0 +1,35 @@
+---
+title: "Causal Inference the Mixtape R-mixed"
+author: "Alex Stephenson"
+date: "`r Sys.Date()`"
+site: bookdown::bookdown_site
+output: bookdown::gitbook
+documentclass: book 
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+```
+
+#  Introduction 
+
+Scott Cunningham's *Causal Inference the Mixtape* is one of the best books that I have read on the practical application of methods in ages. I am excited for the final version, and appreciate all the effort that he has put into making the book work. In my view, the book has only one minor flaw. 
+
+Stata. 
+
+## Why I wrote this 
+
+As a consequence, I wrote this short translation in order to show how to do all of the examples in *Mixtape* in R for two major reasons. First, Stata is not free software, in either the beer or the speech sense. This means that any person trying to pick up material and see example code will be out of luck if their only examples are Stata do files. 
+
+R is a better choice (for me) because R is both free software and R programs look an awful lot like programs written in Python, Julia, etc, which is not at all true for Stata. As a consequence, I find that R travels better when translating concepts between languages. 
+
+Second, Causal Inference the Mixtape when finally published will have an R component, but it does not right now in the current version on Scott Cunningham's website. The book is too useful to be limited to those who only know Stata. 
+
+## What you need to follow along 
+
+You need a new copy of R. You also need to run the following line of code. This line of code will install the tidyverse series of packages and the estimatr package. From the tidyverse, I primarily make use of ggplot2, haven for reading in .dta files, and dplyr for data manipulation. estimatr allows us to run robust regressions with standard errors that mimic Stata. 
+
+```{r, message = F, warning = F, echo = T, eval = F}
+install.packages(c("tidyverse","ggpubr","estimatr"))
+```

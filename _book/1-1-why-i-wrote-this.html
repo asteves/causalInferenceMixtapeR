@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="1.1 Why I wrote this | Causal Inference the Mixtape Remixed" />
+<meta property="og:type" content="book" />
+
+
+
+
+
+<meta name="author" content="Alex Stephenson" />
+
+<meta name="date" content="2020-02-27" />
+
+
+<meta name="description" content="1.1 Why I wrote this | Causal Inference the Mixtape Remixed">
+
+<title>1.1 Why I wrote this | Causal Inference the Mixtape Remixed</title>
+
+<script src="libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="libs/navigation-1.1/tabsets.js"></script>
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container-fluid main-container">
+
+
+<div class="row">
+<div class="col-sm-12">
+<div id="TOC">
+<ul>
+<li class="has-sub"><a href="index.html#introduction"><span class="toc-section-number">1</span> Introduction</a><ul>
+<li><a href="1-1-why-i-wrote-this.html#why-i-wrote-this"><span class="toc-section-number">1.1</span> Why I wrote this</a></li>
+<li><a href="1-2-what-you-need-to-follow-along.html#what-you-need-to-follow-along"><span class="toc-section-number">1.2</span> What you need to follow along</a></li>
+</ul></li>
+<li class="has-sub"><a href="2-linear-regression.html#linear-regression"><span class="toc-section-number">2</span> Linear Regression</a><ul>
+<li><a href="2-1-an-example.html#an-example"><span class="toc-section-number">2.1</span> An Example</a></li>
+<li><a href="2-2-regression-plot.html#regression-plot"><span class="toc-section-number">2.2</span> Regression Plot</a></li>
+<li><a href="2-3-residual-plot.html#residual-plot"><span class="toc-section-number">2.3</span> Residual Plot</a></li>
+<li><a href="2-4-ols-residuals-add-up-to-zero-by-construction.html#ols-residuals-add-up-to-zero-by-construction"><span class="toc-section-number">2.4</span> OLS Residuals Add up to Zero by Construction</a></li>
+<li><a href="2-5-monte-carlo-simulation.html#monte-carlo-simulation"><span class="toc-section-number">2.5</span> Monte Carlo Simulation</a></li>
+</ul></li>
+<li class="has-sub"><a href="3-dags.html#dags"><span class="toc-section-number">3</span> DAGs</a><ul>
+<li><a href="3-1-collider-bias.html#collider-bias"><span class="toc-section-number">3.1</span> Collider Bias</a></li>
+<li><a href="3-2-collider-bias-2-qualitative-change-in-sign.html#collider-bias-2-qualitative-change-in-sign"><span class="toc-section-number">3.2</span> Collider Bias 2 Qualitative Change in Sign</a></li>
+<li><a href="3-3-collider-bias-nonrandom-sample-selection.html#collider-bias-nonrandom-sample-selection"><span class="toc-section-number">3.3</span> Collider Bias Nonrandom Sample selection</a></li>
+</ul></li>
+<li class="has-sub"><a href="4-potential-outcomes.html#potential-outcomes"><span class="toc-section-number">4</span> Potential Outcomes</a><ul>
+<li><a href="4-1-yule-regression.html#yule-regression"><span class="toc-section-number">4.1</span> Yule Regression</a></li>
+<li><a href="4-2-monte-carlo-simulation-of-the-sdo.html#monte-carlo-simulation-of-the-sdo"><span class="toc-section-number">4.2</span> Monte Carlo Simulation of the SDO</a></li>
+<li><a href="4-3-krueger-replication.html#krueger-replication"><span class="toc-section-number">4.3</span> Krueger Replication</a></li>
+</ul></li>
+<li class="has-sub"><a href="5-matching.html#matching"><span class="toc-section-number">5</span> Matching</a><ul>
+<li><a href="5-1-titanic-data.html#titanic-data"><span class="toc-section-number">5.1</span> Titanic Data</a></li>
+</ul></li>
+</ul>
+</div>
+</div>
+</div>
+<div class="row">
+<div class="col-sm-12">
+<div id="why-i-wrote-this" class="section level2">
+<h2><span class="header-section-number">1.1</span> Why I wrote this</h2>
+<p>As a consequence, I wrote this short translation in order to show how to do all of the examples in <strong>Mixtape</strong> in R for two major reasons. First, Stata is not free software, in either the beer or the speech sense. This means that any person trying to pick up material and see example code will be out of luck if their only examples are Stata do files.</p>
+<p>R is a better choice (for me) because R is both free software and R programs look an awful lot like programs written in Python, Julia, etc, which is not at all true for Stata. As a consequence, I find that R travels better when translating concepts between languages.</p>
+<p>Second, Causal Inference the Mixtape when finally published will have an R component, but it does not right now in the current version on Scott Cunningham’s website. The book is too useful to be limited to those who only know Stata.</p>
+</div>
+<p style="text-align: center;">
+<a href="index.html"><button class="btn btn-default">Previous</button></a>
+<a href="1-2-what-you-need-to-follow-along.html"><button class="btn btn-default">Next</button></a>
+</p>
+</div>
+</div>
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+$(document).ready(function () {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+});
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,71 @@
+# Potential Outcomes 
+
+```{r, message = F, warning = F}
+library(estimatr)
+library(ggplot2)
+library(haven)
+```
+
+## Yule Regression 
+
+```{r}
+# Yule dataset goes here 
+yule <- read_dta("https://storage.googleapis.com/causal-inference-mixtape.appspot.com/yule.dta")
+# Yule's regression 
+lm_robust(paup~outrelief + old + pop, data = yule, se_type = "stata")
+```
+
+## Monte Carlo Simulation of the SDO 
+
+```{r}
+set.seed(1)
+# Monte Carlo Simulation
+
+sdo <- function(N) {
+    # Generate potential outcomes
+    # By construction of these potential outcomes 
+    # The true ATE is 0.6
+    y1 <- c(7, 5, 5, 7, 4, 10, 1, 5, 3, 9)
+    y0 <- c(1, 6, 1, 8, 2, 1, 10, 6, 7, 8)
+    # Generate treatment vector 
+    d <- sample(c(rep(1, N/2), rep(0, N/2)), N, replace = F)
+    # Generate observed y 
+    y <- d * y1 + (1 - d) * y0
+    # Get the SDO of this assignment 
+    sdo <- mean(y[d == 1]) - mean(y[d == 0])
+    return(sdo)
+}
+
+# Preallocate memory to our list to speed computation 
+mc_result <- c(NA_real_)
+length(mc_result) <- 10000
+
+# Simulation 10000 draws 
+for(i in 1:10000){
+    mc_result[i] <- sdo(10)
+}
+
+# This returns our best guess of the result via simulation 
+mean(mc_result)
+```
+
+```{r}
+ggplot(data = data.frame(x = mc_result), aes(x=x))+
+    geom_histogram(bins = 20)+
+    # The true ATE 
+    geom_vline(xintercept = 0.6)+
+    xlab("Estimate")+
+    ylab("Number of Times Appearing in Simulation")+
+    ggtitle("SDO Simulation")
+```
+
+## Krueger Replication 
+
+```{r}
+# Krueger's Star Dataset 
+star_sw <- read_dta("https://storage.googleapis.com/causal-inference-mixtape.appspot.com/star_sw.dta")
+
+# Regression 1 
+lm_robust(tscorek ~ sck + rak, data = star_sw, se_type = "stata")
+
+```

@@ -1,0 +1,36 @@
+# Matching 
+
+```{r, message=F, warning=F}
+library(haven)
+library(ggplot2)
+library(dplyr)
+```
+
+## Titanic Data 
+```{r}
+titanic <- read_dta("https://storage.googleapis.com/causal-inference-mixtape.appspot.com/titanic.dta")
+
+# Generate sample equivalence 
+titanic_ua <- titanic %>% 
+    mutate(female = ifelse(sex == 0, 1, 0), 
+           male = ifelse(sex == 1, 1, 0),
+           s = case_when(
+               female == 1 & age == 1~1,
+               female == 1 & age == 0~2,
+               female == 0 & age == 1~3,
+               female == 0 & age == 0~4,
+           ),
+           d = ifelse(class == 1, 1, 0))
+
+diff <- round((mean(titanic_ua$survived[titanic_ua$d == 1])-mean(titanic_ua$survived[titanic_ua$d == 0]))*100, 1)
+
+
+print(paste0("SDO says that being in first class\n raised the probability of survival by ", diff, "%"))
+
+```
+
+```{r}
+# Adjust for age and gender 
+
+
+```

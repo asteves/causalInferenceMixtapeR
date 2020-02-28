@@ -1,0 +1,70 @@
+# DAGs
+
+## Collider Bias 
+
+```{r, message = F, warning = F}
+set.seed(541)
+N <- 10000 
+
+female <- runif(N) >=0.5
+ability <- rnorm(N)
+discrimination <- female 
+occupation <- 1 + 2*ability + 0*female - 2*discrimination + rnorm(N)
+
+wage <- 1 - discrimination + occupation + 2*ability + rnorm(N)
+# Create collider Bias 
+lm(wage ~ female)
+lm(wage~female + occupation)
+lm(wage~female + occupation + ability)
+```
+
+## Collider Bias 2 Qualitative Change in Sign 
+
+```{r, message = F, warning = F}
+library(estimatr) 
+set.seed(541)
+
+N <- 2500
+z <- rnorm(N)
+k <- rnorm(N, 10, 4)
+d <- ifelse(k >=12, 1, 0)
+
+# Treatment effect is 50. Notice that y is not a function of X 
+y <- 50*d + 100 + rnorm(N)
+x <- 50*d + y + rnorm(N, 50, 1)
+
+collider2 <- data.frame(y =y, 
+                        x= x,
+                        d = d)
+
+lm_robust(y~d, data = collider2, se_type = "stata")
+lm_robust(y~x, data = collider2, se_type = "stata")
+lm_robust(y~d+x, data = collider2, se_type = "stata")
+```
+
+## Collider Bias Nonrandom Sample selection 
+```{r, message = F, warning = F}
+library(ggplot2)
+library(ggpubr)
+set.seed(3444)
+
+N <- 2500
+beauty <- rnorm(N)
+talent <- rnorm(N)
+
+# Collider variable 
+score <- beauty + talent 
+cutoff <- as.numeric(quantile(score, probs = .85))
+star <- ifelse(score >= cutoff,1, 0)
+movie <- data.frame(beauty = beauty, 
+                    talent = talent,
+                    star = star
+                    )
+overall <- ggplot(movie, aes(beauty, talent))+
+    geom_point()
+splitByStar <- ggplot(movie, aes(beauty, talent))+
+    geom_point()+
+    facet_wrap(~star)
+
+ggarrange(splitByStar, overall, ncol = 1, nrow = 2)
+```

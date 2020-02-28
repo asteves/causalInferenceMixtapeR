@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>4 Potential Outcomes | Causal Inference the Mixtape R-mixed</title>
+  <meta name="description" content="4 Potential Outcomes | Causal Inference the Mixtape R-mixed" />
+  <meta name="generator" content="bookdown 0.16 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="4 Potential Outcomes | Causal Inference the Mixtape R-mixed" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="4 Potential Outcomes | Causal Inference the Mixtape R-mixed" />
+  
+  
+  
+
+<meta name="author" content="Alex Stephenson" />
+
+
+<meta name="date" content="2020-02-27" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="dags.html"/>
+<link rel="next" href="matching.html"/>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction</a><ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#why-i-wrote-this"><i class="fa fa-check"></i><b>1.1</b> Why I wrote this</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#what-you-need-to-follow-along"><i class="fa fa-check"></i><b>1.2</b> What you need to follow along</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="linear-regression.html"><a href="linear-regression.html"><i class="fa fa-check"></i><b>2</b> Linear Regression</a><ul>
+<li class="chapter" data-level="2.1" data-path="linear-regression.html"><a href="linear-regression.html#an-example"><i class="fa fa-check"></i><b>2.1</b> An Example</a></li>
+<li class="chapter" data-level="2.2" data-path="linear-regression.html"><a href="linear-regression.html#regression-plot"><i class="fa fa-check"></i><b>2.2</b> Regression Plot</a></li>
+<li class="chapter" data-level="2.3" data-path="linear-regression.html"><a href="linear-regression.html#residual-plot"><i class="fa fa-check"></i><b>2.3</b> Residual Plot</a></li>
+<li class="chapter" data-level="2.4" data-path="linear-regression.html"><a href="linear-regression.html#ols-residuals-add-up-to-zero-by-construction"><i class="fa fa-check"></i><b>2.4</b> OLS Residuals Add up to Zero by Construction</a></li>
+<li class="chapter" data-level="2.5" data-path="linear-regression.html"><a href="linear-regression.html#monte-carlo-simulation"><i class="fa fa-check"></i><b>2.5</b> Monte Carlo Simulation</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="dags.html"><a href="dags.html"><i class="fa fa-check"></i><b>3</b> DAGs</a><ul>
+<li class="chapter" data-level="3.1" data-path="dags.html"><a href="dags.html#collider-bias"><i class="fa fa-check"></i><b>3.1</b> Collider Bias</a></li>
+<li class="chapter" data-level="3.2" data-path="dags.html"><a href="dags.html#collider-bias-2-qualitative-change-in-sign"><i class="fa fa-check"></i><b>3.2</b> Collider Bias 2 Qualitative Change in Sign</a></li>
+<li class="chapter" data-level="3.3" data-path="dags.html"><a href="dags.html#collider-bias-nonrandom-sample-selection"><i class="fa fa-check"></i><b>3.3</b> Collider Bias Nonrandom Sample selection</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="potential-outcomes.html"><a href="potential-outcomes.html"><i class="fa fa-check"></i><b>4</b> Potential Outcomes</a><ul>
+<li class="chapter" data-level="4.1" data-path="potential-outcomes.html"><a href="potential-outcomes.html#yule-regression"><i class="fa fa-check"></i><b>4.1</b> Yule Regression</a></li>
+<li class="chapter" data-level="4.2" data-path="potential-outcomes.html"><a href="potential-outcomes.html#monte-carlo-simulation-of-the-sdo"><i class="fa fa-check"></i><b>4.2</b> Monte Carlo Simulation of the SDO</a></li>
+<li class="chapter" data-level="4.3" data-path="potential-outcomes.html"><a href="potential-outcomes.html#krueger-replication"><i class="fa fa-check"></i><b>4.3</b> Krueger Replication</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="matching.html"><a href="matching.html"><i class="fa fa-check"></i><b>5</b> Matching</a><ul>
+<li class="chapter" data-level="5.1" data-path="matching.html"><a href="matching.html#titanic-data"><i class="fa fa-check"></i><b>5.1</b> Titanic Data</a></li>
+</ul></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Causal Inference the Mixtape R-mixed</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="potential-outcomes" class="section level1">
+<h1><span class="header-section-number">4</span> Potential Outcomes</h1>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="potential-outcomes.html#cb26-1"></a><span class="kw">library</span>(estimatr)</span>
+<span id="cb26-2"><a href="potential-outcomes.html#cb26-2"></a><span class="kw">library</span>(ggplot2)</span>
+<span id="cb26-3"><a href="potential-outcomes.html#cb26-3"></a><span class="kw">library</span>(haven)</span></code></pre></div>
+<div id="yule-regression" class="section level2">
+<h2><span class="header-section-number">4.1</span> Yule Regression</h2>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="potential-outcomes.html#cb27-1"></a><span class="co"># Yule dataset goes here </span></span>
+<span id="cb27-2"><a href="potential-outcomes.html#cb27-2"></a>yule &lt;-<span class="st"> </span><span class="kw">read_dta</span>(<span class="st">&quot;https://storage.googleapis.com/causal-inference-mixtape.appspot.com/yule.dta&quot;</span>)</span>
+<span id="cb27-3"><a href="potential-outcomes.html#cb27-3"></a><span class="co"># Yule&#39;s regression </span></span>
+<span id="cb27-4"><a href="potential-outcomes.html#cb27-4"></a><span class="kw">lm_robust</span>(paup<span class="op">~</span>outrelief <span class="op">+</span><span class="st"> </span>old <span class="op">+</span><span class="st"> </span>pop, <span class="dt">data =</span> yule, <span class="dt">se_type =</span> <span class="st">&quot;stata&quot;</span>)</span></code></pre></div>
+<pre><code>##               Estimate  Std. Error    t value     Pr(&gt;|t|)    CI Lower
+## (Intercept) 63.1877372 42.71255368  1.4793716 0.1502048458 -24.3049628
+## outrelief    0.7520945  0.16798829  4.4770650 0.0001156568   0.4079861
+## old          0.0556020  0.36803485  0.1510781 0.8809973217  -0.6982832
+## pop         -0.3107383  0.07440422 -4.1763536 0.0002614333  -0.4631485
+##                CI Upper DF
+## (Intercept) 150.6804372 28
+## outrelief     1.0962029 28
+## old           0.8094872 28
+## pop          -0.1583282 28</code></pre>
+</div>
+<div id="monte-carlo-simulation-of-the-sdo" class="section level2">
+<h2><span class="header-section-number">4.2</span> Monte Carlo Simulation of the SDO</h2>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="potential-outcomes.html#cb29-1"></a><span class="kw">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb29-2"><a href="potential-outcomes.html#cb29-2"></a><span class="co"># Monte Carlo Simulation</span></span>
+<span id="cb29-3"><a href="potential-outcomes.html#cb29-3"></a></span>
+<span id="cb29-4"><a href="potential-outcomes.html#cb29-4"></a>sdo &lt;-<span class="st"> </span><span class="cf">function</span>(N) {</span>
+<span id="cb29-5"><a href="potential-outcomes.html#cb29-5"></a>    <span class="co"># Generate potential outcomes</span></span>
+<span id="cb29-6"><a href="potential-outcomes.html#cb29-6"></a>    <span class="co"># By construction of these potential outcomes </span></span>
+<span id="cb29-7"><a href="potential-outcomes.html#cb29-7"></a>    <span class="co"># The true ATE is 0.6</span></span>
+<span id="cb29-8"><a href="potential-outcomes.html#cb29-8"></a>    y1 &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">7</span>, <span class="dv">5</span>, <span class="dv">5</span>, <span class="dv">7</span>, <span class="dv">4</span>, <span class="dv">10</span>, <span class="dv">1</span>, <span class="dv">5</span>, <span class="dv">3</span>, <span class="dv">9</span>)</span>
+<span id="cb29-9"><a href="potential-outcomes.html#cb29-9"></a>    y0 &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">6</span>, <span class="dv">1</span>, <span class="dv">8</span>, <span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">10</span>, <span class="dv">6</span>, <span class="dv">7</span>, <span class="dv">8</span>)</span>
+<span id="cb29-10"><a href="potential-outcomes.html#cb29-10"></a>    <span class="co"># Generate treatment vector </span></span>
+<span id="cb29-11"><a href="potential-outcomes.html#cb29-11"></a>    d &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="kw">c</span>(<span class="kw">rep</span>(<span class="dv">1</span>, N<span class="op">/</span><span class="dv">2</span>), <span class="kw">rep</span>(<span class="dv">0</span>, N<span class="op">/</span><span class="dv">2</span>)), N, <span class="dt">replace =</span> F)</span>
+<span id="cb29-12"><a href="potential-outcomes.html#cb29-12"></a>    <span class="co"># Generate observed y </span></span>
+<span id="cb29-13"><a href="potential-outcomes.html#cb29-13"></a>    y &lt;-<span class="st"> </span>d <span class="op">*</span><span class="st"> </span>y1 <span class="op">+</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>d) <span class="op">*</span><span class="st"> </span>y0</span>
+<span id="cb29-14"><a href="potential-outcomes.html#cb29-14"></a>    <span class="co"># Get the SDO of this assignment </span></span>
+<span id="cb29-15"><a href="potential-outcomes.html#cb29-15"></a>    sdo &lt;-<span class="st"> </span><span class="kw">mean</span>(y[d <span class="op">==</span><span class="st"> </span><span class="dv">1</span>]) <span class="op">-</span><span class="st"> </span><span class="kw">mean</span>(y[d <span class="op">==</span><span class="st"> </span><span class="dv">0</span>])</span>
+<span id="cb29-16"><a href="potential-outcomes.html#cb29-16"></a>    <span class="kw">return</span>(sdo)</span>
+<span id="cb29-17"><a href="potential-outcomes.html#cb29-17"></a>}</span>
+<span id="cb29-18"><a href="potential-outcomes.html#cb29-18"></a></span>
+<span id="cb29-19"><a href="potential-outcomes.html#cb29-19"></a><span class="co"># Preallocate memory to our list to speed computation </span></span>
+<span id="cb29-20"><a href="potential-outcomes.html#cb29-20"></a>mc_result &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="ot">NA_real_</span>)</span>
+<span id="cb29-21"><a href="potential-outcomes.html#cb29-21"></a><span class="kw">length</span>(mc_result) &lt;-<span class="st"> </span><span class="dv">10000</span></span>
+<span id="cb29-22"><a href="potential-outcomes.html#cb29-22"></a></span>
+<span id="cb29-23"><a href="potential-outcomes.html#cb29-23"></a><span class="co"># Simulation 10000 draws </span></span>
+<span id="cb29-24"><a href="potential-outcomes.html#cb29-24"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">10000</span>){</span>
+<span id="cb29-25"><a href="potential-outcomes.html#cb29-25"></a>    mc_result[i] &lt;-<span class="st"> </span><span class="kw">sdo</span>(<span class="dv">10</span>)</span>
+<span id="cb29-26"><a href="potential-outcomes.html#cb29-26"></a>}</span>
+<span id="cb29-27"><a href="potential-outcomes.html#cb29-27"></a></span>
+<span id="cb29-28"><a href="potential-outcomes.html#cb29-28"></a><span class="co"># This returns our best guess of the result via simulation </span></span>
+<span id="cb29-29"><a href="potential-outcomes.html#cb29-29"></a><span class="kw">mean</span>(mc_result)</span></code></pre></div>
+<pre><code>## [1] 0.59288</code></pre>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="potential-outcomes.html#cb31-1"></a><span class="kw">ggplot</span>(<span class="dt">data =</span> <span class="kw">data.frame</span>(<span class="dt">x =</span> mc_result), <span class="kw">aes</span>(<span class="dt">x=</span>x))<span class="op">+</span></span>
+<span id="cb31-2"><a href="potential-outcomes.html#cb31-2"></a><span class="st">    </span><span class="kw">geom_histogram</span>(<span class="dt">bins =</span> <span class="dv">20</span>)<span class="op">+</span></span>
+<span id="cb31-3"><a href="potential-outcomes.html#cb31-3"></a><span class="st">    </span><span class="co"># The true ATE </span></span>
+<span id="cb31-4"><a href="potential-outcomes.html#cb31-4"></a><span class="st">    </span><span class="kw">geom_vline</span>(<span class="dt">xintercept =</span> <span class="fl">0.6</span>)<span class="op">+</span></span>
+<span id="cb31-5"><a href="potential-outcomes.html#cb31-5"></a><span class="st">    </span><span class="kw">xlab</span>(<span class="st">&quot;Estimate&quot;</span>)<span class="op">+</span></span>
+<span id="cb31-6"><a href="potential-outcomes.html#cb31-6"></a><span class="st">    </span><span class="kw">ylab</span>(<span class="st">&quot;Number of Times Appearing in Simulation&quot;</span>)<span class="op">+</span></span>
+<span id="cb31-7"><a href="potential-outcomes.html#cb31-7"></a><span class="st">    </span><span class="kw">ggtitle</span>(<span class="st">&quot;SDO Simulation&quot;</span>)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
+</div>
+<div id="krueger-replication" class="section level2">
+<h2><span class="header-section-number">4.3</span> Krueger Replication</h2>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="potential-outcomes.html#cb32-1"></a><span class="co"># Krueger&#39;s Star Dataset </span></span>
+<span id="cb32-2"><a href="potential-outcomes.html#cb32-2"></a>star_sw &lt;-<span class="st"> </span><span class="kw">read_dta</span>(<span class="st">&quot;https://storage.googleapis.com/causal-inference-mixtape.appspot.com/star_sw.dta&quot;</span>)</span>
+<span id="cb32-3"><a href="potential-outcomes.html#cb32-3"></a></span>
+<span id="cb32-4"><a href="potential-outcomes.html#cb32-4"></a><span class="co"># Regression 1 </span></span>
+<span id="cb32-5"><a href="potential-outcomes.html#cb32-5"></a><span class="kw">lm_robust</span>(tscorek <span class="op">~</span><span class="st"> </span>sck <span class="op">+</span><span class="st"> </span>rak, <span class="dt">data =</span> star_sw, <span class="dt">se_type =</span> <span class="st">&quot;stata&quot;</span>)</span></code></pre></div>
+<pre><code>##                Estimate Std. Error     t value     Pr(&gt;|t|)   CI Lower
+## (Intercept) 918.0428928   1.633391 562.0472691 0.000000e+00 914.840835
+## sck          13.8989945   2.454093   5.6635966 1.553732e-08   9.088053
+## rak           0.3139354   2.270976   0.1382381 8.900570e-01  -4.138027
+##               CI Upper   DF
+## (Intercept) 921.244950 5783
+## sck          18.709936 5783
+## rak           4.765898 5783</code></pre>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="dags.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="matching.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>
